@@ -14,7 +14,7 @@ var AppRouter = Backbone.Router.extend({
         self.menuView = new MenuView({ model: self.menu })
         self.menuView.render()
         
-        self.basketView = new BasketView()
+        self.basketView = new BasketView({ model: self.basket })
         self.basketView.render()
       },
       error: function(model, response) {
