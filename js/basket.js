@@ -1,6 +1,7 @@
 var BasketItem = Backbone.Model.extend({
   defaults: {
-    "Item": null,
+    "Name": "",
+    "Price": 0.0,
     "Quantity": 0
   }
 });
@@ -10,14 +11,25 @@ var BasketCollection = Backbone.Collection.extend({
 });
 
 var BasketView = Backbone.View.extend({
+  
   el: $('#basket'),
+  
   template: _.template($('#basket-template').html()),
+  
+  initialize:function () {
+    this.model.bind("add", function (item) {
+      $('#basket ul').append(new BasketItemView({ model: item }).render().el);
+    });
+  },
+  
   render: function(eventName) {
     $(this.el).html(this.template())
+    
     var list = $('#basket ul')
     _.each(this.model.models, function(item) {
       list.append(new BasketItemView({ model: item }).render().el);
     }, this);
+    
     return this;
   }
 });

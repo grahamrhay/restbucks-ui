@@ -1,3 +1,5 @@
+var basket = new BasketCollection()
+
 var AppRouter = Backbone.Router.extend({
   routes: {
     "" : "menu",
@@ -6,7 +8,6 @@ var AppRouter = Backbone.Router.extend({
 
   menu: function() {
     this.menu = new MenuItemCollection()
-    this.basket = new BasketCollection()
     
     var self = this
     
@@ -15,7 +16,7 @@ var AppRouter = Backbone.Router.extend({
         self.menuView = new MenuView({ model: self.menu })
         self.menuView.render()
         
-        self.basketView = new BasketView({ model: self.basket })
+        self.basketView = new BasketView({ model: basket })
         self.basketView.render()
       },
       error: function(model, response) {
