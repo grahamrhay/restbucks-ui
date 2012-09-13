@@ -1,6 +1,7 @@
 var AppRouter = Backbone.Router.extend({
   routes: {
-    "" : "menu"
+    "" : "menu",
+    "menu" : "menu",
   },
 
   menu: function() {
