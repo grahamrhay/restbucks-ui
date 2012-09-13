@@ -1,0 +1,59 @@
+var MenuItem = Backbone.Model.extend({
+  defaults: {
+    "Name":  "",
+    "Price":  0.0
+  }
+});
+
+var MenuItemCollection = Backbone.Collection.extend({
+  model: MenuItem,
+  url: "/restbucks/menu",
+  parse: function(response) {
+    return response.Items;
+  }
+});
+
+var MenuItemView = Backbone.View.extend({
+
+  tagName: "li",
+
+  template: _.template($('#menu-item').html()),
+
+  render: function(eventName) {
+    $(this.el).html(this.template(this.model.toJSON()))
+    return this
+  }
+});
+
+var MenuView = Backbone.View.extend({
+  el: $('#menu'),
+  
+  render: function(eventName) {
+    _.each(this.model.models, function(item) {
+      $(this.el).append(new MenuItemView({ model: item }).render().el);
+    }, this);
+    return this;
+  }
+});
+
+var AppRouter = Backbone.Router.extend({
+  routes: {
+    "" : "menu"
+  },
+
+  menu: function() {
+    this.items = new MenuItemCollection();
+    var self = this;
+    this.items.fetch({
+      success: function() {
+        self.menuView = new MenuView({ model: self.items });
+        self.menuView.render();
+      },
+      error: function(model, response) {
+      }
+    });
+  },
+});
+
+var app = new AppRouter();
+Backbone.history.start();
