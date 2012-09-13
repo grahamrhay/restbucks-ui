@@ -49,6 +49,9 @@
       <h1>Welcome to Restbucks!</h1>
 
       <div id="menu"></div>
+      
+      <div id="basket"></div>
+      
     </div> <!-- /container -->
 
     <script type="text/template" id="menu-template">
@@ -60,10 +63,20 @@
       <li><a href=''><%= Name %></a>: &pound;<%= Price.toFixed(2) %></li>
     </script>
     
+    <script type="text/template" id="basket-template">
+      <h2>Basket:</h2>
+      <ul class="unstyled"></ul>
+    </script>
+    
+    <script type="text/template" id="basket-item-template">
+      <li><a href=''><%= Item.Name %></a>: <%= Quantity %></li>
+    </script>
+    
     <!-- javascript - placed at the end of the document so the pages load faster -->
     <script src="js/jquery.js"></script>
     <script src="js/underscore.js"></script>
     <script src="js/backbone.js"></script>
+    <script src="js/basket.js"></script>
     <script src="js/main.js"></script>
     
   </body>

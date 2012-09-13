@@ -41,14 +41,21 @@ var AppRouter = Backbone.Router.extend({
   },
 
   menu: function() {
-    this.items = new MenuItemCollection();
-    var self = this;
-    this.items.fetch({
+    this.menu = new MenuItemCollection()
+    this.basket = new BasketCollection()
+    
+    var self = this
+    
+    this.menu.fetch({
       success: function() {
-        self.menuView = new MenuView({ model: self.items });
-        self.menuView.render();
+        self.menuView = new MenuView({ model: self.menu })
+        self.menuView.render()
+        
+        self.basketView = new BasketView()
+        self.basketView.render()
       },
       error: function(model, response) {
+        // TODO: notify error
       }
     });
   },
