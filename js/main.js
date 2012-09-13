@@ -14,11 +14,8 @@ var MenuItemCollection = Backbone.Collection.extend({
 });
 
 var MenuItemView = Backbone.View.extend({
-
   tagName: "li",
-
-  template: _.template($('#menu-item').html()),
-
+  template: _.template($('#menu-item-template').html()),
   render: function(eventName) {
     $(this.el).html(this.template(this.model.toJSON()))
     return this
@@ -27,10 +24,12 @@ var MenuItemView = Backbone.View.extend({
 
 var MenuView = Backbone.View.extend({
   el: $('#menu'),
-  
+  template: _.template($('#menu-template').html()), 
   render: function(eventName) {
+    $(this.el).html(this.template())
+    var list = $('#menu ul')
     _.each(this.model.models, function(item) {
-      $(this.el).append(new MenuItemView({ model: item }).render().el);
+      list.append(new MenuItemView({ model: item }).render().el);
     }, this);
     return this;
   }

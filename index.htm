@@ -48,11 +48,15 @@
       <img src="img/restbucks.png" />
       <h1>Welcome to Restbucks!</h1>
 
-      <h2>Menu:</h2>
-      <ul id="menu" class="unstyled"></ul>
+      <div id="menu"></div>
     </div> <!-- /container -->
 
-    <script type="text/template" id="menu-item">
+    <script type="text/template" id="menu-template">
+      <h2>Menu:</h2>
+      <ul class="unstyled"></ul>
+    </script>
+    
+    <script type="text/template" id="menu-item-template">
       <li><a href=''><%= Name %></a>: &pound;<%= Price.toFixed(2) %></li>
     </script>
     
