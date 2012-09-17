@@ -14,21 +14,35 @@ var MenuItemCollection = Backbone.Collection.extend({
 });
 
 var MenuItemView = Backbone.View.extend({
+  
   tagName: "li",
+  
   template: _.template($('#menu-item-template').html()),
+  
   render: function(eventName) {
     $(this.el).html(this.template(this.model.toJSON()))
     return this
   },
+  
   events: {
-    "click btn" : "purchase",
+    "click btn.takeAway" : "purchaseTakeAway",
+    "click btn.inShop" : "purchaseInShop"
   },
-  purchase: function() {
-    console.log("purchased " + this.model.get("Name"))
+  
+  purchaseTakeAway: function() {
+    this.purchase("takeAway")
+  },
+  
+  purchaseInShop: function() {
+    this.purchase("inShop")
+  },
+
+  purchase: function(location) {
     basket.add([{
-      Name: this.model.get("Name"),
-      Price: this.model.get("Price"),
-      Quantity: 1,
+      name: this.model.get("Name"),
+      price: this.model.get("Price"),
+      quantity: 1,
+      location: location
     }])
   }
 });

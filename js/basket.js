@@ -1,8 +1,8 @@
 var BasketItem = Backbone.Model.extend({
   defaults: {
-    "Name": "",
-    "Price": 0.0,
-    "Quantity": 0
+    "name": "",
+    "price": 0.0,
+    "quantity": 0
   }
 });
 
@@ -27,7 +27,7 @@ var BasketView = Backbone.View.extend({
     var viewModel = {
       hasItem: this.model.models.length > 0,
       total: _.reduce(this.model.models, function(sum, item) {
-        return sum += item.get("Price")
+        return sum += item.get("price")
       }, 0)
     }
     $(this.el).html(this.template(viewModel))
@@ -38,7 +38,7 @@ var BasketView = Backbone.View.extend({
     }, this);
     
     return this;
-  }
+  }  
 });
 
 var BasketItemView = Backbone.View.extend({
