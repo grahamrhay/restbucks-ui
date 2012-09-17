@@ -66,6 +66,9 @@
     <script type="text/template" id="basket-template">
       <h2>Basket:</h2>
       <ul class="unstyled"></ul>
+      <% if (hasItem) { %>
+        <btn class='btn'>Place Order</btn>
+      <% } %>
     </script>
     
     <script type="text/template" id="basket-item-template">

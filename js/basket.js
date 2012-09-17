@@ -17,13 +17,14 @@ var BasketView = Backbone.View.extend({
   template: _.template($('#basket-template').html()),
   
   initialize:function () {
+    var self = this
     this.model.bind("add", function (item) {
-      $('#basket ul').append(new BasketItemView({ model: item }).render().el);
-    });
+      self.render()
+    })
   },
   
   render: function(eventName) {
-    $(this.el).html(this.template())
+    $(this.el).html(this.template({ hasItem: this.model.models.length > 0 }))
     
     var list = $('#basket ul')
     _.each(this.model.models, function(item) {
