@@ -24,7 +24,13 @@ var BasketView = Backbone.View.extend({
   },
   
   render: function(eventName) {
-    $(this.el).html(this.template({ hasItem: this.model.models.length > 0 }))
+    var viewModel = {
+      hasItem: this.model.models.length > 0,
+      total: _.reduce(this.model.models, function(sum, item) {
+        return sum += item.get("Price")
+      }, 0)
+    }
+    $(this.el).html(this.template(viewModel))
     
     var list = $('#basket ul')
     _.each(this.model.models, function(item) {
