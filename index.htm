@@ -60,7 +60,7 @@
     </script>
     
     <script type="text/template" id="menu-item-template">
-      <li><%= Name %>: &pound;<%= Price.toFixed(2) %><btn class='btn takeAway'>Take away</btn><btn class='btn inShop'>In shop</btn></li>
+      <li><%= Name %>: &pound;<%= Price.toFixed(2) %><btn class='btn'>Add to basket</btn></li>
     </script>
     
     <script type="text/template" id="basket-template">
@@ -68,12 +68,12 @@
       <ul class="unstyled"></ul>
       <% if (hasItem) { %>
         Total: &pound;<%= total.toFixed(2) %>
-        <btn class='btn'>Place Order</btn>
+        <btn class='btn takeAway'>Take away</btn><btn class='btn inShop'>In shop</btn>
       <% } %>
     </script>
     
     <script type="text/template" id="basket-item-template">
-      <li><%= name %>: <%= quantity %> (<%= location === "takeAway" ? "Take away" : "In shop" %>)</li>
+      <li><%= name %>: <%= quantity %></li>
     </script>
     
     <!-- javascript - placed at the end of the document so the pages load faster -->

@@ -25,24 +25,14 @@ var MenuItemView = Backbone.View.extend({
   },
   
   events: {
-    "click btn.takeAway" : "purchaseTakeAway",
-    "click btn.inShop" : "purchaseInShop"
+    "click btn" : "addToBasket"
   },
   
-  purchaseTakeAway: function() {
-    this.purchase("takeAway")
-  },
-  
-  purchaseInShop: function() {
-    this.purchase("inShop")
-  },
-
-  purchase: function(location) {
+  addToBasket: function() {
     basket.add([{
       name: this.model.get("Name"),
       price: this.model.get("Price"),
-      quantity: 1,
-      location: location
+      quantity: 1
     }])
   }
 });
