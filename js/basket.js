@@ -36,6 +36,10 @@ var BasketView = Backbone.View.extend({
     })
   },
   
+  events: {
+    "click btn" : "placeOrder",
+  },
+  
   render: function(eventName) {
     $(this.el).html(this.template(this.model))
     
@@ -45,8 +49,15 @@ var BasketView = Backbone.View.extend({
     }, this);
     
     return this;
+  },
+   
+  placeOrder: function() {
+    toOrderXml(this.model.models)
   }
 });
+
+var toOrderXml = function(basket) {
+}
 
 var BasketItemView = Backbone.View.extend({
   tagName: "li",
