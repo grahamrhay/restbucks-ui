@@ -7,7 +7,20 @@ var BasketItem = Backbone.Model.extend({
 });
 
 var BasketCollection = Backbone.Collection.extend({
-  model: BasketItem
+  
+  model: BasketItem,
+  
+  hasItem: false,
+  
+  total: 0,
+  
+  initialize: function () {
+    var self = this
+    this.on("add", function (item) {
+      self.hasItem = true
+      self.total += item.get("price")
+    })
+  }
 });
 
 var BasketView = Backbone.View.extend({
@@ -24,13 +37,7 @@ var BasketView = Backbone.View.extend({
   },
   
   render: function(eventName) {
-    var viewModel = {
-      hasItem: this.model.models.length > 0,
-      total: _.reduce(this.model.models, function(sum, item) {
-        return sum += item.get("price")
-      }, 0)
-    }
-    $(this.el).html(this.template(viewModel))
+    $(this.el).html(this.template(this.model))
     
     var list = $('#basket ul')
     _.each(this.model.models, function(item) {
@@ -38,7 +45,7 @@ var BasketView = Backbone.View.extend({
     }, this);
     
     return this;
-  }  
+  }
 });
 
 var BasketItemView = Backbone.View.extend({
