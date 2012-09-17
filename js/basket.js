@@ -29,7 +29,7 @@ var BasketView = Backbone.View.extend({
   
   template: _.template($('#basket-template').html()),
   
-  initialize:function () {
+  initialize: function () {
     var self = this
     this.model.bind("add", function (item) {
       self.render()
