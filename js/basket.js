@@ -17,7 +17,7 @@ var BasketCollection = Backbone.Collection.extend({
   initialize: function () {
     var self = this
     this.on("add", function (item) {
-      self.hasItem = true
+      self.hasItems = true
       self.total += item.get("price")
     })
   }
