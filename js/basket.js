@@ -18,7 +18,7 @@ var BasketCollection = Backbone.Collection.extend({
     var self = this
     this.on("add", function (item) {
       self.hasItems = true
-      self.total += item.get("price")
+      self.total += (item.get("price") * item.get("quantity")) // ignore rounding issues (IRL use something like BigDecimal.js)
     })
   }
 });

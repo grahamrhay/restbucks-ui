@@ -28,4 +28,10 @@ describe("BasketCollection", function() {
 
     expect(basket.total).toEqual(4.4)
   })
+  
+  it("should return product of price and quantity of items for total", function() {
+    basket.add([{ price: 2, quantity: 3 }])
+
+    expect(basket.total).toEqual(6)
+  })
 })
