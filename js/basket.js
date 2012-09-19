@@ -2,7 +2,7 @@ var BasketItem = Backbone.Model.extend({
   defaults: {
     "name": "",
     "price": 0.0,
-    "quantity": 0
+    "quantity": 1
   }
 });
 
