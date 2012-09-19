@@ -10,7 +10,7 @@ var BasketCollection = Backbone.Collection.extend({
   
   model: BasketItem,
   
-  hasItem: false,
+  hasItems: false,
   
   total: 0,
   
