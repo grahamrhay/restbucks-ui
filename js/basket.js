@@ -37,7 +37,8 @@ var BasketView = Backbone.View.extend({
   },
   
   events: {
-    "click btn" : "placeOrder",
+    "click btn.takeAway" : "placeTakeAwayOrder",
+    "click btn.inShop" : "placeInShopOrder"
   },
   
   render: function(eventName) {
@@ -50,14 +51,43 @@ var BasketView = Backbone.View.extend({
     
     return this;
   },
-   
-  placeOrder: function() {
-    toOrderXml(this.model.models)
+
+  placeTakeAwayOrder: function() {
+    this.placeOrder("takeAway")
+  },
+
+  placeInShopOrder: function() {
+    this.placeOrder("inShop")
+  },
+  
+  placeOrder: function(location) {
+    console.log("Placing order: " + location)
+    
+    var items = _.map(this.model.models, function(model) {
+      return { name: model.get("name"), quantity: model.get("quantity") }
+    })
+    order = new Order({
+      location: location,
+      cost: this.model.total,
+      items: items
+    })
+
+    var self = this
+    $.ajax("/restbucks/orders", {
+      type: "POST",
+      data: order.toXmlString(),
+      contentType: "text/xml",
+      success: function(data, textStatus, jqXHR) {
+        var location = jqXHR.getResponseHeader("Location")
+        self.options.dispatcher.trigger("orderCreated", location)
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error(jqXHR.status)
+        console.error(errorThrown)
+      }
+    })
   }
 });
-
-var toOrderXml = function(basket) {
-}
 
 var BasketItemView = Backbone.View.extend({
   tagName: "li",

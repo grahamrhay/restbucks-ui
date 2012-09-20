@@ -2,8 +2,9 @@ var basket = new BasketCollection()
 
 var AppRouter = Backbone.Router.extend({
   routes: {
-    "" : "menu",
-    "menu" : "menu",
+    ""           : "menu",
+    "menu"       : "menu",
+    "orders/:id" : "order"
   },
 
   menu: function() {
@@ -16,7 +17,7 @@ var AppRouter = Backbone.Router.extend({
         self.menuView = new MenuView({ model: self.menu })
         self.menuView.render()
         
-        self.basketView = new BasketView({ model: basket })
+        self.basketView = new BasketView({ model: basket, dispatcher: dispatcher })
         self.basketView.render()
       },
       error: function(model, response) {
@@ -24,7 +25,17 @@ var AppRouter = Backbone.Router.extend({
       }
     });
   },
+  
+  order: function(id) {
+  }
 });
 
-var app = new AppRouter();
-Backbone.history.start();
+var dispatcher = _.clone(Backbone.Events)
+
+dispatcher.on("orderCreated", function(location) {
+  var id = location.split("/").pop(-1)
+  app.navigate("/orders/" + id, true);
+})
+
+var app = new AppRouter()
+Backbone.history.start()
