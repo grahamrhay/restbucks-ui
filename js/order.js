@@ -8,8 +8,8 @@ var Order = Backbone.Model.extend({
   
   toXmlString: function() {
     var xml = "<?xml version=\"1.0\"?>" +
-              "<order xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" +
-              "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"" +
+              "<order xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
+              "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" " +
               "xmlns=\"http://restbuckson.net\">" +
               "<links />" + 
               "<location>" + this.get("location") + "</location>" +
