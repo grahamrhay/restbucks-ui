@@ -37,8 +37,8 @@ var BasketView = Backbone.View.extend({
   },
   
   events: {
-    "click btn.takeAway" : "placeTakeAwayOrder",
-    "click btn.inShop" : "placeInShopOrder"
+    "click btn#takeAway" : "placeTakeAwayOrder",
+    "click btn#inShop" : "placeInShopOrder"
   },
   
   render: function(eventName) {
@@ -67,9 +67,9 @@ var BasketView = Backbone.View.extend({
       return { name: model.get("name"), quantity: model.get("quantity") }
     })
     order = new Order({
-      location: location,
-      cost: this.model.total,
-      items: items
+      Location: location,
+      Cost: this.model.total,
+      Items: items
     })
 
     var self = this
@@ -86,6 +86,10 @@ var BasketView = Backbone.View.extend({
         console.error(errorThrown)
       }
     })
+  },
+  
+  close: function() {
+    $(this.el).empty()
   }
 });
 

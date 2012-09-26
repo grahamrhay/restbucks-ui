@@ -34,7 +34,7 @@ var MenuItemView = Backbone.View.extend({
       price: this.model.get("Price"),
       quantity: 1
     }])
-  }
+  } 
 });
 
 var MenuView = Backbone.View.extend({
@@ -49,5 +49,18 @@ var MenuView = Backbone.View.extend({
       list.append(new MenuItemView({ model: item }).render().el);
     }, this);
     return this;
+  },
+  
+  close: function() {
+    $(this.el).empty()
   }
 });
+
+var MenuLoadingView = Backbone.View.extend({
+  el: $('#menu'),
+  
+  render: function(eventName) {
+    $(this.el).html("Loading menu...")
+    return this
+  }
+})

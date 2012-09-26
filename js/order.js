@@ -1,29 +1,78 @@
 var Order = Backbone.Model.extend({
   defaults: {
-    "location": "",
-    "cost": 0.0,
-    "items": [],
-    "status": "orderCreated"
+    "Location": "",
+    "Cost": 0.0,
+    "Items": [],
+    "Status": "orderCreated"
   },
-  
+
+  parse: function(response) {
+    // this shouldn't be necessary, but Restbucks-on-Nancy doesn't serialize enums to json as strings :(
+    if (response.Location == 0) {
+      response.Location = "takeAway"
+    } else {
+      response.Location = "inShop"
+    }
+    
+    if (response.Status == 0) {
+      response.Status = "orderCreated"
+    } else if (response.Status == 1) {
+      response.Status = "unpaid"
+    } else if (response.Status == 2) {
+      response.Status = "paid"
+    } else if (response.Status == 3) {
+      response.Status = "ready"
+    } else if (response.Status == 4) {
+      response.Status = "canceled"
+    } else if (response.Status == 5) {
+      response.Status = "delivered"
+    }
+    
+    return response
+  },
+
   toXmlString: function() {
     var xml = "<?xml version=\"1.0\"?>" +
               "<order xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
               "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" " +
               "xmlns=\"http://restbuckson.net\">" +
               "<links />" + 
-              "<location>" + this.get("location") + "</location>" +
-              "<cost>" + this.get("cost") + "</cost>" +
+              "<location>" + this.get("Location") + "</location>" +
+              "<cost>" + this.get("Cost") + "</cost>" +
               "<items>"
     
-    _.each(this.get("items"), function(item) {
+    _.each(this.get("Items"), function(item) {
       xml += "<item><name>" + item.name + "</name><quantity>" + item.quantity + "</quantity></item>"
     })
     
     xml += "</items>" +
-           "<status>" + this.get("status") + "</status>" +
+           "<status>" + this.get("Status") + "</status>" +
            "</order>"
 
     return xml
   }
-});
+})
+
+var OrderView = Backbone.View.extend({
+  el: $('#order'),
+  
+  template: _.template($('#order-template').html()),
+  
+  render: function(eventName) {
+    $(this.el).html(this.template(this.model.toJSON()))
+    return this
+  },
+  
+  close: function() {
+    $(this.el).empty()
+  }
+})
+
+var OrderLoadingView = Backbone.View.extend({
+  el: $('#order'),
+  
+  render: function(eventName) {
+    $(this.el).html("Loading order details...")
+    return this
+  }  
+})

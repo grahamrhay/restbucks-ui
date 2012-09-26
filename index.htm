@@ -48,9 +48,11 @@
       <img src="img/restbucks.png" />
       <h1>Welcome to Restbucks!</h1>
 
-      <div id="menu">Loading menu...</div>
+      <div id="menu"></div>
       
       <div id="basket"></div>
+      
+      <div id="order"></div>
       
     </div> <!-- /container -->
 
@@ -68,12 +70,63 @@
       <ul class="unstyled"></ul>
       <% if (hasItems) { %>
         Total: &pound;<%= total.toFixed(2) %>
-        <btn class='btn takeAway'>Take away</btn><btn class='btn inShop'>In shop</btn>
+        <btn id="takeAway" class="btn">Take away</btn><btn id="inShop" class="btn">In shop</btn>
       <% } %>
     </script>
     
     <script type="text/template" id="basket-item-template">
       <li><%= name %>: <%= quantity %></li>
+    </script>
+    
+    <script type="text/template" id="order-template">
+      <form class="form-horizontal">
+        <fieldset>
+          <legend>Order: <%= Id %></legend>
+          <div class="control-group">
+            <label class="control-label" for="cost">Items:</label>
+            <div class="controls">
+              <ul>
+                <% _.each(Items, function(item) { %>
+                  <li><%= item.Name %> (<%= item.Quantity %>)</li>
+                <% }) %>
+              </ul>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="cost">Cost:</label>
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on">&pound;</span>
+                <span class="input-xlarge uneditable-input"><%= Cost.toFixed(2) %></span>
+              </div>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="status">Status:</label>
+            <div class="controls">
+              <span class="input-xlarge uneditable-input"><%= Status %></span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Location:</label>
+            <div class="controls">
+              <label class="radio">
+                <input type="radio" name="locationRadios" id="locationRadios1" value="takeAway"<% if (Location == "takeAway") { %> checked=""<% } %> />
+                Take away
+              </label>
+              <label class="radio">
+                <input type="radio" name="locationRadios" id="locationRadios2" value="inShop"<% if (Location == "inShop") { %> checked=""<% } %> />
+                In shop
+              </label>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button id="payForOrder" class="btn btn-primary">Pay</button>
+            <button id="updateOrder" class="btn">Update</button>
+            <button id="cancelOrder" class="btn btn-danger">Cancel</button>
+          </div>
+        </fieldset>
+      </form>
     </script>
     
     <!-- javascript - placed at the end of the document so the pages load faster -->

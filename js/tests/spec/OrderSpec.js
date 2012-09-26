@@ -7,37 +7,37 @@ describe("Order", function() {
 
   describe("defaults", function() {
     it("should return an empty string as the default location", function() {
-      expect(order.get("location")).toEqual("")
+      expect(order.get("Location")).toEqual("")
     })
     
     it("should return zero as the default cost", function() {
-      expect(order.get("cost")).toEqual(0.0)
+      expect(order.get("Cost")).toEqual(0.0)
     })
     
     it("should contain zero items by default", function() {
-      expect(order.get("items").length).toEqual(0)
+      expect(order.get("Items").length).toEqual(0)
     })
     
     it("should return orderCreated as the default status", function() {
-      expect(order.get("status")).toEqual("orderCreated")
+      expect(order.get("Status")).toEqual("orderCreated")
     })
   })
   
   describe("toXmlString", function() {
     it("should include the location in the xml", function() {
-      order.set("location", "takeAway")
+      order.set("Location", "takeAway")
       
       expect(order.toXmlString()).toContain("<location>takeAway</location>")
     })
     
     it("should include the cost in the xml", function() {
-      order.set("cost", "15.99")
+      order.set("Cost", "15.99")
       
       expect(order.toXmlString()).toContain("<cost>15.99</cost>")
     })
     
     it("should include the status in the xml", function() {
-      order.set("status", "paid")
+      order.set("Status", "paid")
       
       expect(order.toXmlString()).toContain("<status>paid</status>")
     })
@@ -47,7 +47,7 @@ describe("Order", function() {
     })
     
     it("should include all items in the xml", function() {
-      order.set("items", [{ name: "coffee", quantity: 1 }, { name: "tea", quantity: 2 }])
+      order.set("Items", [{ name: "coffee", quantity: 1 }, { name: "tea", quantity: 2 }])
       
       expect(order.toXmlString()).toContain("<items><item><name>coffee</name><quantity>1</quantity></item><item><name>tea</name><quantity>2</quantity></item></items>")
     })
