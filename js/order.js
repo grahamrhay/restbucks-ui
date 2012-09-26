@@ -58,6 +58,10 @@ var OrderView = Backbone.View.extend({
   
   template: _.template($('#order-template').html()),
   
+  events: {
+    "click button#cancelOrder" : "cancelOrder"
+  },
+
   render: function(eventName) {
     $(this.el).html(this.template(this.model.toJSON()))
     return this
@@ -65,6 +69,24 @@ var OrderView = Backbone.View.extend({
   
   close: function() {
     $(this.el).empty()
+  },
+  
+  cancelOrder: function() {
+    var links = this.model.get("Links")
+    var cancelLink = _.find(links, function(link) {
+      return link.Relation.indexOf("order-cancel") != -1
+    })
+    
+    var self = this
+    $.ajax(cancelLink.Uri, {
+      type: "DELETE",
+      success: function(data, textStatus, jqXHR) {
+        console.log("Cancelled order")
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error("Failed to cancel order")
+      }
+    })
   }
 })
 
