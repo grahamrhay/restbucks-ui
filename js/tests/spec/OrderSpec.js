@@ -47,7 +47,7 @@ describe("Order", function() {
     })
     
     it("should include all items in the xml", function() {
-      order.set("Items", [{ name: "coffee", quantity: 1 }, { name: "tea", quantity: 2 }])
+      order.set("Items", [{ Name: "coffee", Quantity: 1 }, { Name: "tea", Quantity: 2 }])
       
       expect(order.toXmlString()).toContain("<items><item><name>coffee</name><quantity>1</quantity></item><item><name>tea</name><quantity>2</quantity></item></items>")
     })

@@ -42,7 +42,7 @@ var Order = Backbone.Model.extend({
               "<items>"
     
     _.each(this.get("Items"), function(item) {
-      xml += "<item><name>" + item.name + "</name><quantity>" + item.quantity + "</quantity></item>"
+      xml += "<item><name>" + item.Name + "</name><quantity>" + item.Quantity + "</quantity></item>"
     })
     
     xml += "</items>" +
@@ -59,7 +59,11 @@ var OrderView = Backbone.View.extend({
   template: _.template($('#order-template').html()),
   
   events: {
-    "click button#cancelOrder" : "cancelOrder"
+    "click input#locationRadioTakeAway" : "setLocationToTakeAway",
+    "click input#locationRadioInShop" : "setLocationToInShop",
+  
+    "click button#cancelOrder" : "cancelOrder",
+    "click button#updateOrder" : "updateOrder"
   },
 
   render: function(eventName) {
@@ -70,13 +74,28 @@ var OrderView = Backbone.View.extend({
   close: function() {
     $(this.el).empty()
   },
+
+  setLocationToTakeAway: function() {
+    this.setLocation("takeAway")
+  },
+  
+  setLocationToInShop: function() {
+    this.setLocation("inShop")
+  },
+  
+  setLocation: function(location) {
+    this.model.set("Location", location)
+  },
+  
+  getLink: function(action) {
+    var links = this.model.get("Links")
+    return _.find(links, function(link) {
+      return link.Relation.indexOf("order-" + action) != -1
+    })
+  },
   
   cancelOrder: function() {
-    var links = this.model.get("Links")
-    var cancelLink = _.find(links, function(link) {
-      return link.Relation.indexOf("order-cancel") != -1
-    })
-    
+    var cancelLink = this.getLink("cancel")
     var self = this
     $.ajax(cancelLink.Uri, {
       type: "DELETE",
@@ -85,6 +104,22 @@ var OrderView = Backbone.View.extend({
       },
       error: function(jqXHR, textStatus, errorThrown) {
         console.error("Failed to cancel order")
+      }
+    })
+  },
+  
+  updateOrder: function() {
+    var updateLink = this.getLink("update")
+    var self = this
+    $.ajax(updateLink.Uri, {
+      type: "POST",
+      data: this.model.toXmlString(),
+      contentType: "text/xml",
+      success: function(data, textStatus, jqXHR) {
+        console.log("Updated order")
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error("Failed to update order")
       }
     })
   }

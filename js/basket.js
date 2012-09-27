@@ -64,7 +64,7 @@ var BasketView = Backbone.View.extend({
     console.log("Placing order: " + location)
     
     var items = _.map(this.model.models, function(model) {
-      return { name: model.get("name"), quantity: model.get("quantity") }
+      return { Name: model.get("name"), Quantity: model.get("quantity") }
     })
     order = new Order({
       Location: location,
