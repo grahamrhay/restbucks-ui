@@ -101,6 +101,8 @@ var OrderView = Backbone.View.extend({
       type: "DELETE",
       success: function(data, textStatus, jqXHR) {
         console.log("Cancelled order")
+        var getLink = self.getLink("get")
+        self.options.dispatcher.trigger("orderCancelled", getLink.Uri)
       },
       error: function(jqXHR, textStatus, errorThrown) {
         console.error("Failed to cancel order")
@@ -117,6 +119,8 @@ var OrderView = Backbone.View.extend({
       contentType: "text/xml",
       success: function(data, textStatus, jqXHR) {
         console.log("Updated order")
+        var getLink = self.getLink("get")
+        self.options.dispatcher.trigger("orderUpdated", getLink.Uri)
       },
       error: function(jqXHR, textStatus, errorThrown) {
         console.error("Failed to update order")

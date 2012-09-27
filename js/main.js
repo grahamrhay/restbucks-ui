@@ -32,23 +32,20 @@ var AppRouter = Backbone.Router.extend({
   },
   
   order: function(id) {
-    var order = new Order({ Id: id })
-    order.url = "/Restbucks/order/" + id // not ideal, but real alternative
-    
-    this.displayOrder(order)
+    var location = "/Restbucks/order/" + id // not ideal, but no real alternative
+    this.showOrderView(id, location)
   },
   
-  orderCreated: function(location) {
-    var id = location.split("/").pop(-1) // bit hacky :(
+  displayOrder: function(location) {
+    var id = location.split("/").pop(-1) // also not ideal
     app.navigate("/orders/" + id)
-    
+    this.showOrderView(id, location)
+  },
+  
+  showOrderView: function(id, location) {
     var order = new Order({ Id: id })
     order.url = location
     
-    this.displayOrder(order)
-  },
-  
-  displayOrder: function(order) {
     if (this.menuView) {
       this.menuView.close()
     }
@@ -62,7 +59,7 @@ var AppRouter = Backbone.Router.extend({
     var self = this
     order.fetch({
       success: function() {
-        self.orderView = new OrderView({ model: order })
+        self.orderView = new OrderView({ model: order, dispatcher: dispatcher })
         self.orderView.render()
       },
       error: function(model, response) {
@@ -75,7 +72,13 @@ var AppRouter = Backbone.Router.extend({
 var dispatcher = _.clone(Backbone.Events)
 
 dispatcher.on("orderCreated", function(location) {
-  app.orderCreated(location)
+  app.displayOrder(location)
+})
+dispatcher.on("orderCancelled", function(location) {
+  app.displayOrder(location)
+})
+dispatcher.on("orderUpdated", function(location) {
+  app.displayOrder(location)
 })
 
 var app = new AppRouter()
