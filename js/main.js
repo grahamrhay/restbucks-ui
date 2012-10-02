@@ -26,7 +26,7 @@ var AppRouter = Backbone.Router.extend({
         self.basketView.render()
       },
       error: function(model, response) {
-        // TODO: notify error
+        errorAlert("Failed to retrieve menu")
       }
     });
   },
@@ -76,9 +76,11 @@ dispatcher.on("orderCreated", function(location) {
 })
 dispatcher.on("orderCancelled", function(location) {
   app.displayOrder(location)
+  errorAlert("Order cancelled")
 })
 dispatcher.on("orderUpdated", function(location) {
   app.displayOrder(location)
+  successAlert("Order updated")
 })
 
 var app = new AppRouter()

@@ -105,7 +105,7 @@ var OrderView = Backbone.View.extend({
         self.options.dispatcher.trigger("orderCancelled", getLink.Uri)
       },
       error: function(jqXHR, textStatus, errorThrown) {
-        console.error("Failed to cancel order")
+        errorAlert("Failed to cancel order")
       }
     })
   },
@@ -123,7 +123,7 @@ var OrderView = Backbone.View.extend({
         self.options.dispatcher.trigger("orderUpdated", getLink.Uri)
       },
       error: function(jqXHR, textStatus, errorThrown) {
-        console.error("Failed to update order")
+        errorAlert("Failed to update order")
       }
     })
   }
