@@ -108,6 +108,7 @@ var OrderView = Backbone.View.extend({
         errorAlert("Failed to cancel order")
       }
     })
+    return false
   },
   
   updateOrder: function() {
@@ -126,6 +127,7 @@ var OrderView = Backbone.View.extend({
         errorAlert("Failed to update order")
       }
     })
+    return false
   }
 })
 
