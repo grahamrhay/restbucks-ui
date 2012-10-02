@@ -20,6 +20,12 @@ var BasketCollection = Backbone.Collection.extend({
       self.hasItems = true
       self.total += (item.get("price") * item.get("quantity")) // ignore rounding issues (IRL use something like BigDecimal.js)
     })
+  },
+  
+  empty: function() {
+    this.reset()
+    this.hasItems = false
+    this.total = 0
   }
 });
 
@@ -80,6 +86,7 @@ var BasketView = Backbone.View.extend({
       success: function(data, textStatus, jqXHR) {
         var location = jqXHR.getResponseHeader("Location")
         self.options.dispatcher.trigger("orderCreated", location)
+        self.model.empty()
       },
       error: function(jqXHR, textStatus, errorThrown) {
         console.error(jqXHR.status)
